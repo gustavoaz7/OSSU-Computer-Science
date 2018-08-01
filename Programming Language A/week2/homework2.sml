@@ -69,3 +69,76 @@ exception IllegalMove
 
 (* put your solutions for problem 2 here *)
 
+(* Q2.a *)
+fun card_color (suit, rank) = 
+    case suit of
+        Spades => Black | Clubs => Black
+    |   Diamonds => Red | Hearts => Red;
+
+(* Q2.b *)
+fun card_value (suit, rank) = 
+    case rank of 
+        Num x => x
+    | Ace => 11
+    | _ => 10;
+
+(* Q2.c *)
+fun remove_card (cardList, card, e) = 
+    let
+        fun recursion (cards, accCards) = 
+            case cards of
+                [] => raise e
+            |   x::x' => if x = card
+                        then accCards @ x'
+                        else recursion(x' , x::accCards)
+    in
+        recursion(cardList, [])
+    end;
+
+(* Q2.d *)
+fun all_same_color (cardList) =
+    case cardList of
+        [] => true
+    | _::[] => true
+    | x::(y::y') => (card_color(x) = card_color(y) andalso all_same_color(y::y'));
+
+(* Q2.e *)
+fun sum_cards (cardList) = 
+    let
+        fun recursion (cardList, acc) = 
+            case cardList of
+                [] => acc
+            |   x::x' => recursion(x' , acc+card_value(x))
+    in
+        recursion(cardList, 0)
+    end;
+
+(* Q2.f *)
+fun score (cardList, goal) = 
+    let
+        val sum = sum_cards(cardList)
+        val prelim_score = if sum > goal 
+                           then 3 * (sum - goal) 
+                           else goal - sum
+    in
+        if all_same_color(cardList) 
+        then prelim_score div 2 
+        else prelim_score
+    end;
+
+(* Q2.g *)
+fun officiate (cardList, moves, goal) = 
+    let
+        fun recursion(remainCards, nextMoves, cardsHeld) = 
+            case nextMoves of
+                [] => score(cardsHeld, goal)
+            |   m::m' => case m of 
+                    Discard c => recursion(remainCards, m' , remove_card(cardsHeld, c, IllegalMove))
+                |   Draw => case remainCards of 
+                        [] => score(cardsHeld, goal)
+                    |   c::c' => if sum_cards(c::cardsHeld) > goal
+                                 then score(c::cardsHeld, goal)
+                                 else recursion(c' , m' , c::cardsHeld)
+    in
+        recursion(cardList, moves, [])
+    end;
