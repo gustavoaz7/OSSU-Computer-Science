@@ -89,3 +89,47 @@ fun all_answers f xs =
     in
         recursion (xs) []
     end;
+
+
+
+(* Q9.a *)
+fun count_wildcards p = g (fn x => 1) (fn x => 0) p;
+
+(* Q9.b *)
+fun count_wild_and_variable_lengths p = g (fn x => 1) String.size(p);
+
+(* Q9.c *)
+fun count_some_var (str, p) = g (fn x => 0) (fn x => if x = str then 1 else 0) p;
+
+(* Q10 *)
+fun check_pat p = 
+    let
+        fun list_of_variables p acc = 
+            case p of
+                Variable x => x::acc
+            |   ConstructorP (_, p') => list_of_variables p' acc
+            |   TupleP ps => List.foldl(fn (p', acc') => (list_of_variables p' []) @ acc') [] ps
+            |   _ => acc
+        fun isUnique strList =
+            case strList of 
+                [] => true
+            |   s::s' => if List.exists(fn x => x = s) s' then false else isUnique s'
+    in
+        isUnique(list_of_variables p [])
+    end;
+
+(* Q11 *)
+fun match (v, p) = 
+    case (v, p) of
+        (v, Wildcard) => SOME []
+    |   (v, Variable s) => SOME [(s, v)]
+    |   (Unit, UnitP) => SOME []
+    |   (Const a, ConstP b) => if a = b then SOME [] else NONE
+    |   (Tuple vs, TupleP ps) => if List.length vs = List.length ps
+                                    then all_answers match (ListPair.zip(vs, ps))
+                                    else NONE
+    |   (Constructor (s, v), ConstructorP(s', p')) => if s = s' then match(v, p') else NONE
+    |   _ => NONE;
+
+(* Q12 *)
+fun first_match v ps = SOME (first_answer(fn p => match(v, p)) ps) handle NoAnswer => NONE;
