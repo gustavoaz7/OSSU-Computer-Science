@@ -49,3 +49,50 @@
         [g (lambda () (cons "dog.jpg" f))]
     ) f)
 )
+
+; Q7
+(define (stream-add-zero s)
+    (lambda () (cons (cons 0 (car (s))) (stream-add-zero (cdr (s)))))
+)
+
+; Q8
+(define (cycle-lists xs ys)
+    (letrec (
+        [f (lambda (z) (cons (cons (list-nth-mod xs z) (list-nth-mod ys z)) (lambda () (f (+ z 1)))))]
+    ) (lambda () (f 0)))
+)
+
+; Q9
+(define (vector-assoc v vec)
+    (letrec (
+        [f (lambda (x) 
+            (cond [(>= x (vector-length vec)) #f]
+                  [(not (pair? (vector-ref vec x))) (f (+ x 1))]
+                  [#t (let ([pr (vector-ref vec x)])
+                        (if (equal? (car pr) v) pr (f (+ x 1))))
+                  ]
+            )
+        )]
+    ) (f 0))
+)
+
+; Q10
+(define (cached-assoc xs n)
+    (letrec 
+        ([cache (make-vector n #f)]
+         [i 0])
+        (lambda (x)
+            (let ([cached-ans (vector-assoc x cache)])
+                (if 
+                    cached-ans 
+                    cached-ans
+                    (begin 
+                        (vector-set! cache i (assoc x xs))
+                        (set! i (remainder (+ i 1) n))
+                        (vector-assoc x cache)
+                    )
+                )
+            )
+        )
+    )
+)
