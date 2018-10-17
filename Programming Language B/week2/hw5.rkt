@@ -97,8 +97,67 @@
             )
           )
         ]
+        [(call? e)
+          (let ([v1 (eval-under-env (call-funexp e) env)]
+                [v2 (eval-under-env (call-actual e) env)])
+            (if (closure? v1)
+              (let ([c-fun (closure-fun v1)]
+                    [c-env (closure-env v1)])
+                (eval-under-env
+                  (fun-body c-fun)
+                  (if (fun-nameopt c-fun)
+                    (cons 
+                      (cons (fun-nameopt c-fun) v1)
+                      (cons
+                        (cons (fun-formal c-fun) v2)
+                        c-env
+                      )
+                    )
+                    (cons
+                      (cons (fun-formal c-fun) v2)
+                      c-env
+                    )
+                  )
+                )
+              )
+            (error "MUPL call applied to non-closure")
+            )
+          )
+        ]
+        [(apair? e)
+          (apair
+            (eval-under-env (apair-e1 e) env)
+            (eval-under-env (apair-e2 e) env)  
+          )
+        ]
+        [(fst? e)
+          (let ([val (eval-under-env (fst-e e) env)])
+            (if (apair? val)
+              (apair-e1 val)
+              (error "MUPL fst applied to non-pair")
+            )
+          )
+        ]
+        [(snd? e)
+          (let ([val (eval-under-env (snd-e e) env)])
+            (if (apair? val)
+              (apair-e2 val)
+              (error "MUPL snd applied to non-pair")
+            )
+          )
+        ]
+        [(isaunit? e)
+          (if (aunit? (eval-under-env (isaunit-e e) env))
+            (int 1)
+            (int 0)
+          )
+        ]
+        [(aunit? e)
+          (aunit)
+        ]
         [#t (error (format "bad MUPL expression: ~v" e))]))
 
 ;; Do NOT change
 (define (eval-exp e)
   (eval-under-env e null))
+        
