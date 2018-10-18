@@ -161,3 +161,39 @@
 (define (eval-exp e)
   (eval-under-env e null))
         
+;; Problem 3
+
+(define (ifaunit e1 e2 e3)
+  (ifgreater (isaunit e1) (int 0) e2 e3)
+)
+
+(define (mlet* lstlst e2)
+  (if (null? lstlst)
+    e2
+    (mlet
+      (car (car lstlst))
+      (cdr (car lstlst))
+      (mlet*
+        (cdr lstlst)
+        e2
+      )
+    )
+  )
+)
+
+(define (ifeq e1 e2 e3 e4)
+  (mlet*
+    (list
+      (cons "_x" e1)
+      (cons "_y" e2)
+    )
+    (ifgreater (var "_x") (var "_y")
+      e4
+      (ifgreater (var "_y") (var "_x")
+        e4
+        e3
+      )
+    )
+  )
+)
+
