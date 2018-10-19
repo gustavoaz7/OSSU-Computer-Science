@@ -197,3 +197,44 @@
   )
 )
 
+;; Problem 4
+
+(define mupl-map
+  (fun #f "f"
+    (fun "map" "mupl-lst"
+      (ifaunit (var "mupl-lst")
+        (aunit)
+        (apair
+          (call (var "f") (fst (var "mupl-lst")))
+          (call (var "map") (snd (var "mupl-lst")))
+        )
+      )
+    )
+  )
+)
+
+(define mupl-mapAddN 
+  (mlet "map" mupl-map
+    (fun #f "i"
+      (call (var "map")
+        (fun #f "x" (add (var "x") (var "i"))))
+    )
+  )
+)
+
+;; Challenge Problem
+
+(struct fun-challenge (nameopt formal body freevars) #:transparent) ;; a recursive(?) 1-argument function
+
+;; We will test this function directly, so it must do
+;; as described in the assignment
+(define (compute-free-vars e) "CHANGE")
+
+;; Do NOT share code with eval-under-env because that will make
+;; auto-grading and peer assessment more difficult, so
+;; copy most of your interpreter here and make minor changes
+(define (eval-under-env-c e env) "CHANGE")
+
+;; Do NOT change this
+(define (eval-exp-c e)
+  (eval-under-env-c (compute-free-vars e) null))
