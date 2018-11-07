@@ -41,8 +41,8 @@ UBCx | [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-dat
 UBCx | [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x)  |
 UBCx | [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x) |
 UBCx  | [Software Construction: Object-Oriented Design](https://www.edx.org/course/software-construction-object-oriented-ubcx-softconst2x) |
-University of Washington | [Programming Languages Part A](https://www.coursera.org/learn/programming-languages) | In Progress
-University of Washington | [Programming Languages, Part B](https://www.coursera.org/learn/programming-languages-part-b) |
+University of Washington | [Programming Languages Part A](https://www.coursera.org/learn/programming-languages) | COMPLETED :heavy_check_mark:
+University of Washington | [Programming Languages, Part B](https://www.coursera.org/learn/programming-languages-part-b) | In Progress
 University of Washington | [Programming Languages, Part C](https://www.coursera.org/learn/programming-languages-part-c) |
 
 
