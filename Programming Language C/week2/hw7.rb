@@ -245,3 +245,110 @@ class Line < GeometryValue
 
 end
 
+class VerticalLine < GeometryValue
+  # *add* methods to this class -- do *not* change given code and do not
+  # override any methods
+  attr_reader :x
+  def initialize x
+    @x = x
+  end
+
+  def eval_prog env
+    self
+  end
+
+  def preprocess_prog
+    self
+  end
+
+  def shift(dx, dy)
+    VerticalLine.new(x + dx)
+  end
+
+  def intersect other
+    other.intersectVerticalLine self
+  end
+
+  def intersectPoint p
+    if real_close(x, p.x)
+      p
+    else
+      NoPoints.new()
+    end
+    # p.intersectVerticalLine self
+  end
+
+  def intersectLine l
+    Point.new(x, l.m*x + l.b)
+    # line.intersectVerticalLine self
+  end
+
+  def intersectVerticalLine vl
+    if real_close(x, vl.x)
+      self
+    else
+      NoPoints.new()
+    end
+  end
+
+  def intersectWithSegmentAsLineResult s
+    if real_close(s.x1, x) && real_close(s.x2, x)
+      s
+    elsif between(x, s.x1, s.x2)
+      two_points_to_line(s.x1, s.y1, s.x2, s.y2).intersectVerticalLine self
+    else
+      NoPoints.new()
+    end
+  end
+
+end
+
+class LineSegment < GeometryValue
+  # *add* methods to this class -- do *not* change given code and do not
+  # override any methods
+  # Note: This is the most difficult class.  In the sample solution,
+  #  preprocess_prog is about 15 lines long and 
+  # intersectWithSegmentAsLineResult is about 40 lines long
+  attr_reader :x1, :y1, :x2, :y2
+  def initialize (x1,y1,x2,y2)
+    @x1 = x1
+    @y1 = y1
+    @x2 = x2
+    @y2 = y2
+  end
+
+  def eval_prog env
+    self
+  end
+
+  def preprocess_prog
+    if real_close_point(x1, y1, x2, y2)
+      Point.new(x1, y1)
+    elsif (real_close(x1, x2) && y1 > y2) || x1 > x2
+      LineSegment.new(x2, y2, x1, y1)
+    else
+      self
+    end
+  end
+
+  def shift(dx, dy)
+    LineSegment.new(x1+dx, y1+dy, x2+dx, y2+dy)
+  end
+
+  def intersect other
+    other.intersectLineSegment self
+  end
+
+  def intersectPoint p
+    p.intersectLineSegment self
+  end
+
+  def intersectLine l
+    l.intersectLineSegment self
+  end
+
+  def intersectVerticalLine vl
+    vl.intersectLineSegment self
+  end
+
+end
