@@ -351,4 +351,60 @@ class LineSegment < GeometryValue
     vl.intersectLineSegment self
   end
 
+  def intersectWithSegmentAsLineResult s
+    seg1 = x1, y1, x2, y2
+    seg2 = s.x1, s.y1, s.x2, s.y2
+    (x1start, y1start, x1end, y1end) = seg1
+    (x2start, y2start, x2end, y2end) = seg2
+    if real_close(x1start, x1end)
+      # Segments are on a vertical line
+      if (y1start < y1end)
+        ((aXstart, aYstart, aXend, aYend), (bXstart, bYstart, bXend, bYend)) = seg1, seg2
+      else
+        ((aXstart, aYstart, aXend, aYend), (bXstart, bYstart, bXend, bYend)) = seg2, seg1
+      end
+      
+      if real_close(aYend, bYstart)
+        # Touching
+        Point.new(aXend, aYend)
+      elsif (aYend < bYstart)
+        # Disjoint
+        NoPoints.new()
+      elsif (aYend > bYend)
+        # b inside a
+        LineSegment.new(bXstart,bYstart,bXend,bYend)
+      else
+        # Overlapping
+        LineSegment.new(bXstart,bYstart,aXend,aYend)
+      end
+
+    else
+      # Segments are on a non-vertical line
+      if (x1start < x2start)
+        ((aXstart, aYstart, aXend, aYend), (bXstart, bYstart, bXend, bYend)) = seg1, seg2
+      else
+        ((aXstart, aYstart, aXend, aYend), (bXstart, bYstart, bXend, bYend)) = seg2, seg1
+      end
+
+      if real_close(aXend, bXstart)
+        # Touching
+        Point.new(aXend, aYend)
+      elsif (aXend < bXstart)
+        # Disjoint
+        NoPoints.new
+      elsif (aXend > bXend)
+        # b inside a
+        LineSegment.new(bXstart, bYstart, bXend, bYend)
+      else 
+        # Overlapping
+        LineSegment.new(bXstart, bYstart, aXend, aYend)
+      end
+
+    end
+
+  end
+
 end
+
+# Note: there is no need for getter methods for the non-value classes
+
