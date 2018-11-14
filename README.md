@@ -37,13 +37,13 @@ MITx | [Introduction to Computer Science and Programming using Python](https://w
 ### Core Programming
 School | Course | Status
 :--: | :--: | :--: 
-UBCx | [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x) |
-UBCx | [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x)  |
-UBCx | [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x) |
+UBCx | [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x) | DISCARDED :x:
+UBCx | [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x)  | DISCARDED :x:
+UBCx | [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x) | In Progress
 UBCx  | [Software Construction: Object-Oriented Design](https://www.edx.org/course/software-construction-object-oriented-ubcx-softconst2x) |
 University of Washington | [Programming Languages Part A](https://www.coursera.org/learn/programming-languages) | COMPLETED :heavy_check_mark:
-University of Washington | [Programming Languages, Part B](https://www.coursera.org/learn/programming-languages-part-b) | In Progress
-University of Washington | [Programming Languages, Part C](https://www.coursera.org/learn/programming-languages-part-c) |
+University of Washington | [Programming Languages, Part B](https://www.coursera.org/learn/programming-languages-part-b) | COMPLETED :heavy_check_mark:
+University of Washington | [Programming Languages, Part C](https://www.coursera.org/learn/programming-languages-part-c) | COMPLETED :heavy_check_mark:
 
 
 <!-- 
