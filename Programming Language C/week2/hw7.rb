@@ -408,3 +408,79 @@ end
 
 # Note: there is no need for getter methods for the non-value classes
 
+class Intersect < GeometryExpression
+  # *add* methods to this class -- do *not* change given code and do not
+  # override any methods
+  def initialize(e1,e2)
+    @e1 = e1
+    @e2 = e2
+  end
+
+  def preprocess_prog
+    Intersect.new(@e1.preprocess_prog, @e2.preprocess_prog)
+  end
+
+  def eval_prog env
+    @e1.eval_prog(env).intersect(@e2.eval_prog(env))
+  end
+
+end
+
+class Let < GeometryExpression
+  # *add* methods to this class -- do *not* change given code and do not
+  # override any methods
+  # Note: Look at Var to guide how you implement Let
+  def initialize(s,e1,e2)
+    @s = s
+    @e1 = e1
+    @e2 = e2
+  end
+
+  def preprocess_prog
+    Let.new(@s, @e1.preprocess_prog, @e2.preprocess_prog)
+  end
+
+  def eval_prog(env)
+    newEnv = env.clone 
+    @e2.eval_prog(newEnv.unshift([@s, @e1.eval_prog(env)]))
+  end
+
+end
+
+class Var < GeometryExpression
+  # *add* methods to this class -- do *not* change given code and do not
+  # override any methods
+  def initialize s
+    @s = s
+  end
+
+  def eval_prog env # remember: do not change this method
+    pr = env.assoc @s
+    raise "undefined variable" if pr.nil?
+    pr[1]
+  end
+
+  def preprocess_prog
+    self
+  end
+
+end
+
+class Shift < GeometryExpression
+  # *add* methods to this class -- do *not* change given code and do not
+  # override any methods
+  def initialize(dx,dy,e)
+    @dx = dx
+    @dy = dy
+    @e = e
+  end
+
+  def preprocess_prog
+    Shift.new(@dx, @dy, @e.preprocess_prog)
+  end
+
+  def eval_prog(env)
+    @e.eval_prog(env).shift(@dx, @dy)
+  end
+
+end
