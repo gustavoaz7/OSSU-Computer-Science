@@ -7,22 +7,20 @@ public class BurgerByte {
 
     private String location;
     private Manager manager;
-    private List<Cashier> cashiers;
-    private List<FryCook> fryCooks;
+    private List<Employee> staff;
     private boolean isOpen;
 
     public BurgerByte(String locn, Manager manager) {
         location = locn;
         this.manager = manager;
-        cashiers = new LinkedList<>();
-        fryCooks = new LinkedList<>();
+        staff = new LinkedList<>();
+        isOpen = false;
     }
 
     // getters
     public String getLocation() { return location; }
     public Manager getManager() { return manager; }
-    public List<Cashier> getCashiers() { return cashiers; }
-    public List<FryCook> getFryCooks() { return fryCooks; }
+    public List<Employee> getStaff() { return staff; }
     public boolean isOpen() { return isOpen; }
 
     // EFFECTS: "opens" this restaurant, i.e. set isOpen to true
@@ -33,52 +31,30 @@ public class BurgerByte {
     // EFFECTS: sets the isOpen field to false, and sends all employees home (off work)
     public void closeRestaurant() {
         isOpen = false;
-        for (Cashier c : cashiers) {
-            c.leaveWork();
-        }
-        for (FryCook fc : fryCooks) {
-            fc.leaveWork();
-        }
+        staff.forEach(e -> e.leaveWork());
         manager.leaveWork();
     }
 
-    // REQUIRES: c must not be in this cashiers or this BurgerByte's Manager's cashiers
+    // REQUIRES: e must not be in this employees or this BurgerByte's Manager's employees
     // MODIFIES: this
-    // EFFECTS: adds the given cashier to this cashiers
-    public void addCashier(Cashier c) {
-        cashiers.add(c);
+    // EFFECTS: adds the given employee to this employees and to this Manager's employees
+    public void addEmployee(Employee e) {
+        staff.add(e);
+        manager.getEmployees().add(e);
     }
 
-    // REQUIRES: c must be in this cashiers and this BurgerByte's Manager's cashiers
+    // REQUIRES: e must be in this employee and this BurgerByte's Manager's employees
     // MODIFIES: this
-    // EFFECTS: removes the given cashier from this cashiers
-    public void removeCashier(Cashier c) {
-        cashiers.remove(c);
-    }
-
-    // REQUIRES: fc must not be in this frycooks or this BurgerByte's Manager's frycooks
-    // MODIFIES: this
-    // EFFECTS: adds the given cashier to this cashiers
-    public void addFryCook(FryCook fc) {
-        fryCooks.add(fc);
-    }
-
-    // REQUIRES: fc must be in this frycooks and this BurgerByte's Manager's frycooks
-    // MODIFIES: this
-    // EFFECTS: removes the given FryCook from this frycooks
-    public void removeFrycook(FryCook fc) {
-        fryCooks.remove(fc);
+    // EFFECTS: removes the given employee from this employees and to this Manager's employees
+    public void removeEmployee(Employee e) {
+        staff.remove(e);
+        manager.getEmployees().remove(e);
     }
 
     // EFFECTS: computes wages for all employees, prints them out in this format
     //          Name: ______, Salary: _______ for each employee
     public void computeStaffWages() {
-        for (Cashier c : cashiers) {
-            System.out.println("Name: " + c.getName() +", Salary: " + c.computeWage());
-        }
-        for (FryCook fc : fryCooks) {
-            System.out.println("Name: " + fc.getName() +", Salary: " + fc.computeWage());
-        }
+        staff.forEach(e -> System.out.println("Name: " + e.getName() + ", Salary: " + e.computeWage()));
         System.out.println("Name: " + manager.getName() +", Salary: " + manager.computeWage());
     }
 
