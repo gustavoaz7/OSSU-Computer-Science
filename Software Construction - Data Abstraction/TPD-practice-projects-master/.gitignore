@@ -1,0 +1,6 @@
+# This is a gitignore file
+# Everything in this file will be ignored when pushing to git
+
+.DS_Store
+workspace.xml
+.idea/vcs.xml
