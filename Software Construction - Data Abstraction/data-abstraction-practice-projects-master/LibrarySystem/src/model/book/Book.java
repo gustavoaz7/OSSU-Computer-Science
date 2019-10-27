@@ -13,56 +13,58 @@ public class Book {
     private boolean isOnLoan;
 
     public Book(String title, String author, BookType type, int year, int ed) {
-        //TODO: complete the implementation of this method
+        this.title = title;
+        this.author = author;
+        this.type = type;
+        this.year = year;
+        this.edition = ed;
+        this.homeLibrary = null;
+        this.isOnLoan = false;
     }
 
     // getters
     public String getTitle() {
-        //TODO: complete the implementation of this method
-        return null;
+        return this.title;
     }
     public String getAuthor() {
-        //TODO: complete the implementation of this method
-        return null;
+        return this.author;
     }
     public BookType getType() {
-        //TODO: complete the implementation of this method
-        return null;
+        return this.type;
     }
     public int getYear() {
-        //TODO: complete the implementation of this method
-        return 0;
+        return this.year;
     }
     public int getEdition() {
-        //TODO: complete the implementation of this method
-        return 0;
+        return this.edition;
     }
     public Library getHomeLibrary() {
-        //TODO: complete the implementation of this method
-        return null;
+        return this.homeLibrary;
     }
 
     // MODIFIES: this
     // EFFECTS: set the book to be not on loan
-    public void notOnLoan() { this.isOnLoan = false; }
+    public void notOnLoan() {
+        this.isOnLoan = false;
+    }
 
     // EFFECTS: return true if this book is on loan, else return false
     public boolean onLoan() {
-        //TODO: complete the implementation of this method
-        return false;
+        return this.isOnLoan;
     }
 
     // MODIFIES: this
     // EFFECTS: set the book to be on loan
     public void nowOnLoan() {
-        //TODO: complete the implementation of this method
+        this.isOnLoan = true;
     }
 
     // REQUIRES: home != null
     // MODIFIES: this
     // EFFECTS: sets this book's home library to the one passed as parameter
     public void setHomeLibrary(Library home) {
-        //TODO: complete the implementation of this method
+        this.homeLibrary = home;
+        this.homeLibrary.storeBook(this);
     }
 
 
