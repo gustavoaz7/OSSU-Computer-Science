@@ -6,30 +6,22 @@ import sound.MidiSynth;
 import java.awt.*;
 
 
-public class Shape {
-    private static Color PLAYING_COLOR;
+public abstract class Shape {
 
-    private int x;
-    private int y;
-    private int width;
-    private int height;
-
-    private boolean selected;
-
-    private MidiSynth midiSynth;
-    private int instrument;
-    private int playLineCoord;
-
+    protected int x;
+    protected int y;
+    protected int width;
+    protected int height;
+    protected MidiSynth midiSynth;
+    protected boolean selected = false;
+    protected int instrument = 0;
+    protected int playLineCoord = 0;
+    protected Color PLAYING_COLOR = new Color(230, 158, 60);
 
     public Shape(Point topLeft, MidiSynth midiSynth) {
-        this((int) topLeft.getX(), (int) topLeft.getY(), 0, 0); //note to students: calls the other constructor!
-        selected = false;
+        this((int) topLeft.getX(), (int) topLeft.getY(), 0, 0);
         this.midiSynth = midiSynth;
-        instrument = 0;
-        playLineCoord = 0;
-        PLAYING_COLOR = new Color(230, 158, 60);
     }
-
 
     public Shape(int x, int y, int w, int h) {
         this.x = x;
@@ -40,6 +32,10 @@ public class Shape {
 
     // getters
     public int getWidth() { return width; }
+    public int getXCoord() { return x; }
+    public int getYCoord() { return y; }
+    public int getHeight() { return height; }
+    public boolean isSelected() { return selected; }
 
     // setters
     public void setPlayLineCoord(int playLineCoord) {
@@ -47,7 +43,7 @@ public class Shape {
     }
 
     // EFFECTS: return true iff the given x value is within the bounds of the Shape
-    public boolean containsX(int x){
+    public boolean containsX(int x) {
         return (this.x <= x) && (x <= this.x + width);
     }
 
@@ -57,18 +53,13 @@ public class Shape {
     }
 
     // EFFECTS: return true if the given Point (x,y) is contained within the bounds of this Shape
-    public boolean contains(Point point) {
-        int point_x = point.x;
-        int point_y = point.y;
-
-        return containsX(point_x) && containsY(point_y);
-    }
+    abstract boolean contains(Point point);
 
     // REQUIRES: the x,y coordinates of the Point are larger than the x,y coordinates of the shape
     // MODIFIES: this
     // EFFECTS:  sets the bottom right corner of this Shape to the given Point
     public void setBounds(Point bottomRight) {
-        width  = bottomRight.x - x;
+        width = bottomRight.x - x;
         height = bottomRight.y - y;
     }
 
@@ -92,10 +83,8 @@ public class Shape {
         }
     }
 
-
-
     // MODIFIES: this
-    // EFFECTS:  adds dx to the shapes x coordinate, and dy to the shapes y coordinate.
+    // EFFECTS:  adds dx to the shape's x coordinate, and dy to the shape's y coordinate.
     //           If the sound associated with the new y-coordinate is different, play the new sound
     public void move(int dx, int dy) {
         boolean noteChanges;
@@ -129,24 +118,19 @@ public class Shape {
     }
 
     //EFFECTS: draws the shape
-    private void drawGraphics(Graphics g) {
-        g.drawRect(x, y, width, height);
-    }
+    abstract void drawGraphics(Graphics g);
 
     //EFFECTS: fills the shape
-    private void fillGraphics(Graphics g) {
-        g.fillRect(x, y, width, height);
-    }
-
+    abstract void fillGraphics(Graphics g);
 
     // EFFECTS: starts playing this Shape, where sound is dependent on the area/coordinates of the Shape
-    private void play(){
+    private void play() {
         int volume = areaToVelocity(width * height);
         midiSynth.play(instrument, coordToNote(y), volume);
     }
 
     // EFFECTS: stops playing this Shape
-    private void stopPlaying(){
+    private void stopPlaying() {
         midiSynth.stop(instrument, coordToNote(y));
     }
 

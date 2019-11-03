@@ -14,7 +14,6 @@ public class Drawing extends JPanel {
 	private List<Shape> shapes;
 	private int playLineColumn;
 
-
 	public Drawing() {
 		super();
 		shapes = new ArrayList<Shape>();
@@ -63,7 +62,6 @@ public class Drawing extends JPanel {
 	public void addShape(Shape shape) {
 		shapes.add(shape);
 	}
-
 
     // MODIFIES: this
     // EFFECTS:  removes shape from the drawing

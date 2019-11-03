@@ -151,8 +151,11 @@ public class DrawingEditor extends JFrame {
 		toolArea.setSize(new Dimension(0, 0));
 		add(toolArea, BorderLayout.SOUTH);
 
-        ShapeTool rectTool = new ShapeTool(this, toolArea);
-        tools.add(rectTool);
+        ShapeTool rectangleTool = new RectangleTool(this, toolArea);
+        tools.add(rectangleTool);
+
+        ShapeTool ovalTool = new OvalTool(this, toolArea);
+        tools.add(ovalTool);
 
         MoveTool moveTool = new MoveTool(this, toolArea);
         tools.add(moveTool);
@@ -169,7 +172,7 @@ public class DrawingEditor extends JFrame {
         PlayDrawingTool playDrawingTool = new PlayDrawingTool(this, toolArea);
         tools.add(playDrawingTool);
 
-        setActiveTool(rectTool);
+        setActiveTool(rectangleTool);
 	}
 
 	public static void main(String args[]) {
@@ -204,4 +207,3 @@ public class DrawingEditor extends JFrame {
         }
     }
 }
-
