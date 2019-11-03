@@ -1,0 +1,6 @@
+# This is a gitignore file, anything here will be ignored
+# during the commit process to git
+
+.DS_Store
+workspace.xml
+*.class
