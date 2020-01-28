@@ -63,7 +63,7 @@ public class Main {
 
     private static void purchaseAdultFare(BusFareCard c) {
         try {
-            //TODO: what kind of exception are we expecting to catch here? Replace this todo with the method call
+            c.purchaseAdultFare();
             gotoinfoPage();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -73,7 +73,7 @@ public class Main {
 
     private static void purcahseConcessionFare(BusFareCard c) {
         try {
-            //TODO: what kind of exception are we expecting to catch here? Replace this todo with the method call
+            c.purchaseConcessionTicket();
             gotoinfoPage();
         } catch (Exception e) {
             System.out.println(e.getMessage());

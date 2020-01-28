@@ -32,36 +32,45 @@ public class BusFareCard {
     public double getBalance() { return balance; }
     public boolean isFareLoaded() { return fareLoaded; }
 
-    // MODIFIES: this
-    // EFFECTS: if the age of this card < AGE_CUTOFF throws IllegalAgeException
-    //          if balance < 0 throws NoBalanceException 
-    //          otherwise subtract cost of the adult fare from the balance
-    //          and set the fareLoaded field to true
     public void purchaseAdultFare() throws IllegalAgeException, NoBalanceException {
-        //TODO: complete the implementation of this method
+        if (ownerAge <= AGE_CUTOFF) {
+            throw new IllegalAgeException("Please purchase a concession fare.");
+        } else {
+            if (balance - ADULT_FARE < 0) {
+                throw new NoBalanceException("You do not have enough money to purchase this fare.");
+            } else {
+                balance -= ADULT_FARE;
+                fareLoaded = true;
+            }
+        }
     }
 
-    // MODIFIES: this
-    // EFFECTS: if the age of this card is >  AGE_CUTOFF throws IllegalAgeException
-    //          if the the balance on this card is < 0 throws NoBalanceException
-    //          otherwise subtract cost of a concession fare from the balance
-    //          and set the fareLoaded field to true
     public void purchaseConcessionTicket() throws IllegalAgeException, NoBalanceException {
-        //TODO: complete the implementation of this method
+        if (ownerAge > AGE_CUTOFF) {
+            throw new IllegalAgeException("Please purchase an adult fare.");
+        } else {
+            if (balance - CONCESSION_FARE < 0) {
+                throw new NoBalanceException("You do not have enough money to purchase this fare.");
+            } else {
+                balance -= CONCESSION_FARE;
+                fareLoaded = true;
+            }
+        }
     }
 
-    // MODIFIES: this
-    // EFFECTS: if amount < 0, throws IllegalAmountException
-    //          otherwise: loads the specified amount onto the card's balance field
     public void reloadBalance(double amount) throws IllegalAmountException {
-        //TODO: complete the implementation of this method
-    }
+        if (amount <= 0) {
+            throw new IllegalAmountException("Invalid amount to reload onto your card.");
+        } else {
+            balance += amount;
+        }    }
 
-    // MODIFIES: this
-    // EFFECTS: if the fare is not loaded, throws MissingFareException
-    //          otherwise, sets fareLoaded to false
     public void boardBus() throws MissingFareException {
-        //TODO: complete the implementation of this method
+        if (fareLoaded) {
+            fareLoaded = false;
+        } else {
+            throw new MissingFareException("You do not have a fare loaded.");
+        }
     }
 
 
