@@ -14,20 +14,23 @@ public class Owner {
     public String getName() { return name; }
     public Kitchen getKitchen() { return kitchen; }
 
-    // REQUIRES: we have enough ingredients to make the specified amount of tacos
-    // MODIFIES: this
-    // EFFECTS: calls makeTaco on the kitchen, returns true
     public boolean orderMoreTacos(int amount) {
-        kitchen.makeTaco(amount);
-        return true;
+        try {
+            kitchen.makeTaco(amount);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
-    //MODIFIES: this 
-    //EFFECTS: calls buyIngredients on the kitchen, returns true.
     public boolean askForMoreIngredients(int amount) {
-        this.kitchen.buyIngredients(amount);
-        return true;
+        try {
+            kitchen.buyIngredients(amount);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
-
-
 }
