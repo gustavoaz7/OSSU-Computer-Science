@@ -8,10 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Tests for the model.GangesServiceManager. These tests should pass with the starter code, and after successful refactoring.
- */
-
 public class GangesServiceManagerTest {
 
     private GangesServiceManager sm;
