@@ -15,7 +15,6 @@ public enum WordEntryType {
         this.instructions = value;
     }
 
-    //EFFECTS: returns the instructions for this word entry type
     public String getInstructions(){
         return instructions;
     }

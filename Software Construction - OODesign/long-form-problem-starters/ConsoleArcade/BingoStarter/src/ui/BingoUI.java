@@ -21,33 +21,22 @@ public class BingoUI {
 
 
     public BingoUI() throws InterruptedException {
-
         game = new Game();
         playerCard = new PlayerCard();
 
-        //TODO: change addCard to new method name
-        game.addCard(playerCard);
-        game.addCard(new PlayerCard());
-        game.addCard(new PlayerCard());
+        game.addPlayerCard(playerCard);
+        game.addPlayerCard(new PlayerCard());
+        game.addPlayerCard(new PlayerCard());
 
         stampCounts = new int[game.getCards().size()];
         printGreeting();
         playGame();
     }
 
-    //MODIFIES: this
-    //EFFECTS: runs game actions loop with time delay until a player has won
     private void playGame() throws InterruptedException {
         TimeUnit.MILLISECONDS.sleep(500);
         while(!game.isGameOver()) {
             game.callNext();
-
-            //TODO: remove this loop
-            for (PlayerCard pc : game.getCards()) {
-                pc.checkCallMatch(game.getCurrentCall());
-            }
-            //end todo
-
             System.out.println("\nNumber called: " + formatBingoCall());
             TimeUnit.MILLISECONDS.sleep(1000);
             checkStampsAndUpdate();
@@ -56,9 +45,6 @@ public class BingoUI {
             TimeUnit.MILLISECONDS.sleep(100);
             printPlayerCard(playerCard);
             TimeUnit.MILLISECONDS.sleep(500);
-
-            //TODO: remove this call
-            game.refreshGameOver();
         }
         if (playerCard.hasBingo()){
             System.out.println("\nCongratulations! You win!");
@@ -69,13 +55,10 @@ public class BingoUI {
         }
     }
 
-    //EFFECTS: returns the string of the bingo call in format Letter-Number
     private String formatBingoCall() {
         return game.getCurrentCall().getLetter() + "-" + game.getCurrentCall().getNumber();
     }
 
-    //MODIFIES: this
-    //EFFECTS: updates stamp counts of each player and prints message if a card has been stamped
     private void checkStampsAndUpdate() throws InterruptedException {
 
         int size = game.getCards().size();
@@ -96,14 +79,12 @@ public class BingoUI {
         }
     }
 
-    //EFFECTS: prints welcome greeting
     private void printGreeting() throws InterruptedException {
         System.out.println("Welcome to BINGO!");
         System.out.println("Here is your bingo card: ");
         printPlayerCard(playerCard);
     }
 
-    //EFFECTS: prints player card in rows and columns where X represents a stamped square
     private void printPlayerCard(PlayerCard card) throws InterruptedException {
         List<NumberSquare> squares = card.getSquares();
         NumberSquare sqr;
@@ -118,7 +99,6 @@ public class BingoUI {
         System.out.println(cardString.toString());
     }
 
-    //EFFECTS: returns the i as a string with a leading space if i < 10
     private String formatNumber(int i){
         if (i < 10){
             return " " + i;
@@ -127,7 +107,6 @@ public class BingoUI {
         }
     }
 
-    //EFFECTS: returns the winning card of this game
     private PlayerCard findWinningCard(){
         PlayerCard card = new PlayerCard();
 

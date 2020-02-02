@@ -15,13 +15,15 @@ public abstract class Subject {
         return observers;
     }
 
-    //MODIFIES: this
-    //EFFECTS: adds observer to list of observers
     public void addObserver(Observer o) {
         observers.add(o);
     }
 
-    //EFFECTS: notifies observers of state change
-    public void notifyObservers(){ }
+    @Override
+    public void notifyObservers(BingoNumber currentCall){
+        for (Observer o : getObservers()){
+            o.update(currentCall);
+        }
+    }
 
 }
