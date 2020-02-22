@@ -40,10 +40,17 @@ School | Course | Status
 UBCx | [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x) | DISCARDED :x:
 UBCx | [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x)  | DISCARDED :x:
 UBCx | [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x) | COMPLETED :heavy_check_mark:
-UBCx  | [Software Construction: Object-Oriented Design](https://www.edx.org/course/software-construction-object-oriented-ubcx-softconst2x) | In Progress
+UBCx  | [Software Construction: Object-Oriented Design](https://www.edx.org/course/software-construction-object-oriented-ubcx-softconst2x) | COMPLETED :heavy_check_mark:
 University of Washington | [Programming Languages Part A](https://www.coursera.org/learn/programming-languages) | COMPLETED :heavy_check_mark:
 University of Washington | [Programming Languages, Part B](https://www.coursera.org/learn/programming-languages-part-b) | COMPLETED :heavy_check_mark:
 University of Washington | [Programming Languages, Part C](https://www.coursera.org/learn/programming-languages-part-c) | COMPLETED :heavy_check_mark:
+
+### Core Systems
+School | Course | Status
+:--: | :--: | :--: 
+Hebrew University of Jerusalem | [Build a Modern Computer from First Principles: From Nand to Tetris](https://www.coursera.org/learn/build-a-computer) | In Progress
+Hebrew University of Jerusalem | [Build a Modern Computer from First Principles: Nand to Tetris Part II](https://www.coursera.org/learn/nand2tetris2) |
+Stanford Lagunita | [Introduction to Computer Networking](https://lagunita.stanford.edu/courses/Engineering/Networking-SP/SelfPaced/about) |
 
 
 <!-- 
@@ -53,13 +60,7 @@ EMOJIS
 -->
 
 
-<!-- ### Core Systems
-School | Course | Status
-:--: | :--: | :--: 
-Hebrew University of Jerusalem | [Build a Modern Computer from First Principles: From Nand to Tetris](https://www.coursera.org/learn/build-a-computer) |
-Hebrew University of Jerusalem | [Build a Modern Computer from First Principles: Nand to Tetris Part II](https://www.coursera.org/learn/nand2tetris2) |
-Stanford Lagunita | [Introduction to Computer Networking](https://lagunita.stanford.edu/courses/Engineering/Networking-SP/SelfPaced/about) |
-
+<!-- 
 ### Core Theory
 School | Course | Status
 :--: | :--: | :--: 
