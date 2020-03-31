@@ -40,4 +40,53 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
+
+    // 1  1. 1. a  c1 c2 c3 c4 c5 c6 d1 d2 d3 j1 j2 j3
+    // 15 14 13 12 11 10 09 08 07 06 05 04 03 02 01 00
+
+    // instruction[15] == 1 -> C-instruction
+    // instruction[15] == 0 -> A-instruction
+
+    // ARegister
+    Mux16(a=instruction, b=outALU, sel=instruction[15], out=inAregister);
+    Not (in=instruction[15], out=Ainstruction);
+    And(a=instruction[15], b=instruction[5], out=ALoadBit);
+    Or (a=Ainstruction, b=ALoadBit, out=loadAregister);
+    ARegister(in=inAregister, load=loadAregister, out=outAregister, out[0..14]=addressM);
+
+    // DRegister
+    And(a=instruction[15], b=instruction[4], out=DLoadBit);
+    DRegister(in=outALU, load=DLoadBit, out=outDregister);
+
+    // ALU
+    Mux16(a=outAregister, b=inM, sel=instruction[12], out=AorM);
+    ALU (
+        x=outDregister,
+        y=AorM,
+        zx=instruction[11],
+        nx=instruction[10],
+        zy=instruction[9],
+        ny=instruction[8],
+        f=instruction[7],
+        no=instruction[6],
+        out=outALU,
+        out=outM,
+        zr=zrALU,
+        ng=ngALU
+    );
+
+    // PC
+    Not (in=zrALU, out=notzrALU);
+    Not (in=ngALU, out=notngALU);
+    And (a=notzrALU, b=notngALU, out=posALU);
+    And (a=posALU, b=instruction[0], out=positiveJump);
+    And (a=zrALU, b=instruction[1], out=zeroJump);
+    And (a=ngALU, b=instruction[2], out=negativeJump);
+    Or (a=negativeJump, b=zeroJump, out=leLoadJump);
+    Or (a=leLoadJump, b=positiveJump, out=loadJump);
+    And (a=loadJump, b=instruction[15], out=loadPC); 
+    PC (in=outAregister, load=loadPC, reset=reset, inc=true, out[0..14]=pc);
+
+    // writeM
+    And (a=instruction[15], b=instruction[3], out=writeM);
 }
