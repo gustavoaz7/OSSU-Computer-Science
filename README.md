@@ -48,8 +48,8 @@ University of Washington | [Programming Languages, Part C](https://www.coursera.
 ### Core Systems
 School | Course | Status
 :--: | :--: | :--: 
-Hebrew University of Jerusalem | [Build a Modern Computer from First Principles: From Nand to Tetris](https://www.coursera.org/learn/build-a-computer) | In Progress
-Hebrew University of Jerusalem | [Build a Modern Computer from First Principles: Nand to Tetris Part II](https://www.coursera.org/learn/nand2tetris2) |
+Hebrew University of Jerusalem | [Build a Modern Computer from First Principles: From Nand to Tetris](https://www.coursera.org/learn/build-a-computer) | COMPLETED :heavy_check_mark:
+Hebrew University of Jerusalem | [Build a Modern Computer from First Principles: Nand to Tetris Part II](https://www.coursera.org/learn/nand2tetris2) | In Progress
 Stanford Lagunita | [Introduction to Computer Networking](https://lagunita.stanford.edu/courses/Engineering/Networking-SP/SelfPaced/about) |
 
 
