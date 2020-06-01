@@ -10,34 +10,165 @@
  * the screen is indexed (0,0).
  */
 class Screen {
+    static Array twoToThePower;
+    static int bitSize, initMemoryAddr, totalAddrs;
+    static boolean paint;
 
     /** Initializes the Screen. */
     function void init() {
+        var int n, powerOfTwo;
+
+        let bitSize = 16;
+        let paint = true;
+        let initMemoryAddr = 16384;
+        let totalAddrs = 512 * 256 / bitSize;
+
+        let twoToThePower = Array.new(bitSize);
+        let powerOfTwo = 1;
+        let n = 0;
+
+        while (n < bitSize) {
+            let twoToThePower[n] = powerOfTwo;
+            let powerOfTwo = powerOfTwo + powerOfTwo;
+            let n = n + 1;
+        }
+
+        return;
     }
 
     /** Erases the entire screen. */
     function void clearScreen() {
+        var int n;
+        let n = 0;
+
+        while (n < totalAddrs) {
+            do Memory.poke(initMemoryAddr + n, 0);
+        }
+
+        return;
     }
 
     /** Sets the current color, to be used for all subsequent drawXXX commands.
      *  Black is represented by true, white by false. */
     function void setColor(boolean b) {
+        let paint = b;
+        return;
     }
 
     /** Draws the (x,y) pixel, using the current color. */
     function void drawPixel(int x, int y) {
+        var int addr, bit, pixel, mask;
+
+        let addr = initMemoryAddr + (x / bitSize) + (y * 32);
+        let bit = x - ((x / bitSize) * bitSize);
+        let pixel = Memory.peek(addr);
+        let mask = twoToThePower[bit];
+
+        if (paint) {
+            do Memory.poke(addr, pixel | mask);
+        } else {
+            do Memory.poke(addr, pixel & (~mask));
+        }
+
+        return;
+    }
+
+    // Draws a horizontal line from (x1, y) to (x2, y) using current color.
+    function void drawHorizontalLine(int x1, int x2, int y) {
+        var int color, x, xp;
+
+        if (x1 > x2) {
+            do Screen.drawHorizontalLine(x2, x1, y);
+            return;
+        }
+
+        if (paint) {
+            let color = -1;
+        } else {
+            let color = 0;
+        }
+
+        let x = x1;
+
+        while (~(x > x2)) {
+            let xp = x / bitSize;
+
+            if ((x = (xp * bitSize)) & ((x  + bitSize - 1) < x2)) {
+                do Memory.poke(initMemoryAddr + (y * 32) + xp, color);
+                let x = x + bitSize;
+            } else {
+                do Screen.drawPixel(x, y);
+                let x = x + 1;
+            }
+        }
+
+        return;
     }
 
     /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
     function void drawLine(int x1, int y1, int x2, int y2) {
+        var int dx, dy, a, b, x, y, adyMinusbdx;
+        var boolean ndx, ndy;
+
+        if (y1 = y2) {
+            do Screen.drawHorizontalLine(x1, x2, y1);
+            return;
+        }
+
+        let ndx = x2 < x1;
+        let ndy = y2 < y1;
+        let dx = Math.abs(x2 - x1);
+        let dy = Math.abs(y2 - y1);
+        let a = 0;
+        let b = 0;
+
+        let adyMinusbdx = 0;
+
+        while (~((a > dx) | (b > dy))) {
+            if (ndx) { let x = x1 - a; } else { let x = x1 + a; }
+            if (ndy) { let y = y1 - b; } else { let y = y1 + b; }
+
+            do Screen.drawPixel(x, y);
+
+            if (adyMinusbdx < 0) {
+                let a = a + 1;
+                let adyMinusbdx = adyMinusbdx + dy;
+            } else {
+                let b = b + 1;
+                let adyMinusbdx = adyMinusbdx - dx;
+            }
+        }
+
+        return;
     }
 
     /** Draws a filled rectangle whose top left corner is (x1, y1)
      * and bottom right corner is (x2,y2), using the current color. */
     function void drawRectangle(int x1, int y1, int x2, int y2) {
+        var int y;
+        let y = y1;
+
+        while (~(y > y2)) {
+            do Screen.drawHorizontalLine(x1, x2, y);
+            let y = y + 1;
+        }
+
+        return;
     }
 
     /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
     function void drawCircle(int x, int y, int r) {
+        var int rSquared, dy, dx;
+
+        let rSquared = r * r;
+        let dy = -r;
+
+        while (~(dy > r)) {
+            let dx = Math.sqrt(rSquared - (dy * dy));
+            do Screen.drawHorizontalLine(x - dx, x + dx, y + dy);
+            let dy = dy + 1;
+        }
+
+        return;
     }
 }
